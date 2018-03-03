@@ -20,6 +20,37 @@ const lex = inputStr => {
 
 	// Your job: implement this function
 
+	const tokens = []
+
+	if (!inputStr) return tokens
+
+	const match = matchers.reduce((foundMatch, matcher) => {
+		if (foundMatch) return foundMatch
+		const newMatch = inputStr.match(matcher.regex)
+		// const newMatch = matcher.regex.exec(inputStr)
+		return newMatch
+			? {
+				type: matcher.type,
+				value: newMatch[0],
+			}
+			: null
+	}, null)
+
+	if (!match) throw Error(`Unexpected token at: ${inputStr}`)
+
+	if (match.type === 'Space') {
+		return lex(inputStr.slice(match.value.length))
+	}
+
+	if (match) {
+		tokens.push(match)
+	}
+
+	const nextTokens = lex(inputStr.slice(match.value.length))
+
+	// return tokens.concat(nextTokens)
+	return [match, ...nextTokens]
+
 }
 
 // This makes `lex` available to other JS files in Node
