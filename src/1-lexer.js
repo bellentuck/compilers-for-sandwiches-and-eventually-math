@@ -20,36 +20,26 @@ const lex = inputStr => {
 
 	// Your job: implement this function
 
-	const tokens = []
+	if (!inputStr) return []
 
-	if (!inputStr) return tokens
+	const matcher = matchers.find(aMatcher => aMatcher.regex.test(inputStr))
 
-	const match = matchers.reduce((foundMatch, matcher) => {
-		if (foundMatch) return foundMatch
-		const newMatch = inputStr.match(matcher.regex)
-		// const newMatch = matcher.regex.exec(inputStr)
-		return newMatch
-			? {
-				type: matcher.type,
-				value: newMatch[0],
-			}
-			: null
-	}, null)
+	if (!matcher) throw Error(`Unexpected token at: ${inputStr}`)
 
-	if (!match) throw Error(`Unexpected token at: ${inputStr}`)
+	const match = matcher.regex.exec(inputStr)[0]
 
-	if (match.type === 'Space') {
-		return lex(inputStr.slice(match.value.length))
+	if (matcher.type === 'Space') {
+		return lex(inputStr.slice(match.length))
 	}
 
-	if (match) {
-		tokens.push(match)
+	const token = {
+		type: matcher.type,
+		value: match,
 	}
 
-	const nextTokens = lex(inputStr.slice(match.value.length))
+	const nextTokens = lex(inputStr.slice(match.length))
 
-	// return tokens.concat(nextTokens)
-	return [match, ...nextTokens]
+	return [token, ...nextTokens]
 
 }
 
