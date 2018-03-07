@@ -18,7 +18,8 @@ const {
 // helper function
 const verifyResultShape = result => {
 	expect(result).to.be.an('object')
-	expect(result.PT).to.be.an('object')
+	expect(result).to.have.keys(['parseTree', 'remainingTokens'])
+	expect(result.parseTree).to.be.an('object')
 	expect(result.remainingTokens).to.be.an('array')
 }
 
@@ -36,13 +37,12 @@ describe('parser', () => {
 					result = parseFactor(tokens)
 				})
 
-				// PT here stands for "Parse Tree"
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `NumericF` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'NumericF',
 						childNumber: '27',
 					})
@@ -53,7 +53,9 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(1)
+					verify(tokens).areTokensWithTypes([
+						'Number',
+					])
 				})
 
 			})
@@ -66,12 +68,12 @@ describe('parser', () => {
 					result = parseFactor(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `NumericF` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'NumericF',
 						childNumber: '32',
 					})
@@ -85,7 +87,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(3)
+					verify(tokens).areTokensWithTypes([
+						'Number',
+						'Plus',
+						'Number',
+					])
 				})
 
 			})
@@ -98,14 +104,14 @@ describe('parser', () => {
 					result = parseFactor(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `NegativeF` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'NegativeF',
-						// hint: use recursion!
+						// hint: do not make this child tree manually. Use recursion!
 						childFactor: {
 							type: 'NumericF',
 							childNumber: '7',
@@ -118,7 +124,10 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(2)
+					verify(tokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -131,12 +140,12 @@ describe('parser', () => {
 					result = parseFactor(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `NegativeF` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'NegativeF',
 						// hint: use recursion!
 						childFactor: {
@@ -147,11 +156,23 @@ describe('parser', () => {
 				})
 
 				it('consumes two tokens, leaving four remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(4)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Star',
+						'LParen',
+						'Number',
+						'RParen',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(6)
+					verify(tokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+						'Star',
+						'LParen',
+						'Number',
+						'RParen',
+					])
 				})
 
 			})
@@ -178,12 +199,12 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `EpsilonF2` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'EpsilonF2',
 					})
 				})
@@ -193,7 +214,7 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(0)
+					expect(tokens).to.be.empty
 				})
 
 			})
@@ -206,22 +227,32 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `EpsilonF2` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'EpsilonF2',
 					})
 				})
 
 				it('consumes zero tokens, leaving four remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(4)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Plus',
+						'Number',
+						'Slash',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(4)
+					verify(tokens).areTokensWithTypes([
+						'Plus',
+						'Number',
+						'Slash',
+						'Number',
+					])
 				})
 
 			})
@@ -234,14 +265,14 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `MultiplicativeF2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'MultiplicativeF2',
-						// hint: use recursion!
+						// hint: use previously-defined functions!
 						childFactor: {
 							type: 'NumericF',
 							childNumber: '13',
@@ -258,7 +289,10 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(2)
+					verify(tokens).areTokensWithTypes([
+						'Star',
+						'Number',
+					])
 				})
 
 			})
@@ -271,14 +305,14 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `MultiplicativeF2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'MultiplicativeF2',
-						// hint: use recursion!
+						// hint: use previously-defined functions!
 						childFactor: {
 							type: 'NumericF',
 							childNumber: '9',
@@ -291,11 +325,19 @@ describe('parser', () => {
 				})
 
 				it('consumes two tokens, leaving two remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(2)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(4)
+					verify(tokens).areTokensWithTypes([
+						'Star',
+						'Number',
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -308,35 +350,31 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `MultiplicativeF2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'MultiplicativeF2',
-						// hint: use recursion!
+						// hint: use previously-defined functions!
 						childFactor: {
 							type: 'NumericF',
 							childNumber: '1',
 						},
-						// remember recursion?
+						// remember recursion? Don't try to make this object yourself, you already have code which does that for you!
 						childF2: {
 							type: 'MultiplicativeF2',
-							// oh boy, recursion
 							childFactor: {
 								type: 'NumericF',
 								childNumber: '6',
 							},
-							// yup, that's recursive
 							childF2: {
 								type: 'MultiplicativeF2',
-								// very recursive
 								childFactor: {
 									type: 'NumericF',
 									childNumber: '2',
 								},
-								// recurse ALL the way
 								childF2: {
 									type: 'EpsilonF2',
 								},
@@ -346,11 +384,25 @@ describe('parser', () => {
 				})
 
 				it('consumes six tokens, leaving three remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(3)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Plus',
+						'Minus',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(9)
+					verify(tokens).areTokensWithTypes([
+						'Star',
+						'Number',
+						'Star',
+						'Number',
+						'Star',
+						'Number',
+						'Plus',
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -363,12 +415,12 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `DivisionalF2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'DivisionalF2',
 						childFactor: {
 							type: 'NumericF',
@@ -385,7 +437,10 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(2)
+					verify(tokens).areTokensWithTypes([
+						'Slash',
+						'Number',
+					])
 				})
 
 			})
@@ -398,12 +453,12 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `DivisionalF2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'DivisionalF2',
 						childFactor: {
 							type: 'NumericF',
@@ -416,11 +471,19 @@ describe('parser', () => {
 				})
 
 				it('consumes two tokens, leaving two remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(2)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(4)
+					verify(tokens).areTokensWithTypes([
+						'Slash',
+						'Number',
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -433,12 +496,12 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `DivisionalF2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'DivisionalF2',
 						childFactor: {
 							type: 'NumericF',
@@ -465,11 +528,25 @@ describe('parser', () => {
 				})
 
 				it('consumes six tokens, leaving three remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(3)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Plus',
+						'Minus',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(9)
+					verify(tokens).areTokensWithTypes([
+						'Slash',
+						'Number',
+						'Slash',
+						'Number',
+						'Slash',
+						'Number',
+						'Plus',
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -482,12 +559,12 @@ describe('parser', () => {
 					result = parseF2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `MultiplicativeF2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'MultiplicativeF2',
 						childFactor: {
 							type: 'NegativeF',
@@ -510,11 +587,22 @@ describe('parser', () => {
 				})
 
 				it('consumes five tokens, leaving two remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(2)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(7)
+					verify(tokens).areTokensWithTypes([
+						'Star',
+						'Minus',
+						'Number',
+						'Slash',
+						'Number',
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -531,13 +619,12 @@ describe('parser', () => {
 					result = parseTerm(tokens)
 				})
 
-				// PT here stands for "Parse Tree"
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `Term` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'Term',
 						childFactor: {
 							type: 'NumericF',
@@ -561,7 +648,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(3)
+					verify(tokens).areTokensWithTypes([
+						'Number',
+						'Star',
+						'Number',
+					])
 				})
 
 			})
@@ -574,13 +665,12 @@ describe('parser', () => {
 					result = parseTerm(tokens)
 				})
 
-				// PT here stands for "Parse Tree"
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `Term` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'Term',
 						childFactor: {
 							type: 'NumericF',
@@ -604,7 +694,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(3)
+					verify(tokens).areTokensWithTypes([
+						'Number',
+						'Slash',
+						'Number',
+					])
 				})
 
 			})
@@ -617,13 +711,12 @@ describe('parser', () => {
 					result = parseTerm(tokens)
 				})
 
-				// PT here stands for "Parse Tree"
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `Term` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'Term',
 						childFactor: {
 							type: 'NegativeF',
@@ -653,11 +746,25 @@ describe('parser', () => {
 				})
 
 				it('consumes six tokens, leaving three remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(3)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Plus',
+						'Minus',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(9)
+					verify(tokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+						'Star',
+						'Number',
+						'Slash',
+						'Number',
+						'Plus',
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -674,12 +781,12 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `EpsilonT2` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'EpsilonT2',
 					})
 				})
@@ -689,7 +796,7 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(0)
+					expect(tokens).to.be.empty
 				})
 
 			})
@@ -702,22 +809,34 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `EpsilonT2` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'EpsilonT2',
 					})
 				})
 
 				it('consumes zero tokens, leaving five remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(5)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'RParen',
+						'Plus',
+						'LParen',
+						'Number',
+						'RParen',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(5)
+					verify(tokens).areTokensWithTypes([
+						'RParen',
+						'Plus',
+						'LParen',
+						'Number',
+						'RParen',
+					])
 				})
 
 			})
@@ -730,22 +849,32 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `EpsilonT2` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'EpsilonT2',
 					})
 				})
 
 				it('consumes zero tokens, leaving four remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(4)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Slash',
+						'Number',
+						'Plus',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(4)
+					verify(tokens).areTokensWithTypes([
+						'Slash',
+						'Number',
+						'Plus',
+						'Number',
+					])
 				})
 
 			})
@@ -758,12 +887,12 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `AdditiveT2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'AdditiveT2',
 						childTerm: {
 							type: 'Term',
@@ -786,7 +915,10 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(2)
+					verify(tokens).areTokensWithTypes([
+						'Plus',
+						'Number',
+					])
 				})
 
 			})
@@ -799,12 +931,12 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `AdditiveT2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'AdditiveT2',
 						childTerm: {
 							type: 'Term',
@@ -834,7 +966,12 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(4)
+					verify(tokens).areTokensWithTypes([
+						'Plus',
+						'Number',
+						'Slash',
+						'Number',
+					])
 				})
 
 			})
@@ -847,12 +984,12 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `AdditiveT2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'AdditiveT2',
 						childTerm: {
 							type: 'Term',
@@ -888,7 +1025,12 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(4)
+					verify(tokens).areTokensWithTypes([
+						'Plus',
+						'Number',
+						'Plus',
+						'Number',
+					])
 				})
 
 			})
@@ -901,12 +1043,12 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `SubtractiveT2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'SubtractiveT2',
 						childTerm: {
 							type: 'Term',
@@ -929,7 +1071,10 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(2)
+					verify(tokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -942,12 +1087,12 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `SubtractiveT2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'SubtractiveT2',
 						childTerm: {
 							type: 'Term',
@@ -977,7 +1122,12 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(4)
+					verify(tokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+						'Slash',
+						'Number',
+					])
 				})
 
 			})
@@ -990,12 +1140,12 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `SubtractiveT2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'SubtractiveT2',
 						childTerm: {
 							type: 'Term',
@@ -1031,7 +1181,12 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(4)
+					verify(tokens).areTokensWithTypes([
+						'Minus',
+						'Number',
+						'Minus',
+						'Number',
+					])
 				})
 
 			})
@@ -1044,12 +1199,12 @@ describe('parser', () => {
 					result = parseT2(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `AdditiveT2` parse tree', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'AdditiveT2',
 						childTerm: {
 							type: 'Term',
@@ -1099,7 +1254,16 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(8)
+					verify(tokens).areTokensWithTypes([
+						'Plus',
+						'Number',
+						'Slash',
+						'Number',
+						'Minus',
+						'Number',
+						'Star',
+						'Number',
+					])
 				})
 
 			})
@@ -1116,13 +1280,12 @@ describe('parser', () => {
 					result = parseExpression(tokens)
 				})
 
-				// PT here stands for "Parse Tree"
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `Expression` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'Expression',
 						childTerm: {
 							type: 'Term',
@@ -1152,7 +1315,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(3)
+					verify(tokens).areTokensWithTypes([
+						'Number',
+						'Star',
+						'Number',
+					])
 				})
 
 			})
@@ -1165,13 +1332,12 @@ describe('parser', () => {
 					result = parseExpression(tokens)
 				})
 
-				// PT here stands for "Parse Tree"
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds an `Expression` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'Expression',
 						childTerm: {
 							type: 'Term',
@@ -1214,7 +1380,13 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(5)
+					verify(tokens).areTokensWithTypes([
+						'Number',
+						'Star',
+						'Number',
+						'Plus',
+						'Number',
+					])
 				})
 
 			})
@@ -1231,12 +1403,12 @@ describe('parser', () => {
 					result = parseFactor(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `GroupF` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'GroupF',
 						childExpression: {
 							type: 'Expression',
@@ -1262,7 +1434,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(3)
+					verify(tokens).areTokensWithTypes([
+						'LParen',
+						'Number',
+						'RParen',
+					])
 				})
 
 			})
@@ -1275,12 +1451,12 @@ describe('parser', () => {
 					result = parseFactor(tokens)
 				})
 
-				it('returns an object with `PT` object and `remainingTokens` array properties', () => {
+				it('returns an object with `parseTree` and `remainingTokens`', () => {
 					verifyResultShape(result)
 				})
 
 				it('builds a `GroupF` parse tree node', () => {
-					expect(result.PT).to.deep.equal({
+					expect(result.parseTree).to.deep.equal({
 						type: 'GroupF',
 						childExpression: {
 							type: 'Expression',
@@ -1302,11 +1478,20 @@ describe('parser', () => {
 				})
 
 				it('consumes three tokens, leaving two remaining tokens', () => {
-					expect(result.remainingTokens).to.have.length(2)
+					verify(result.remainingTokens).areTokensWithTypes([
+						'Plus',
+						'Number',
+					])
 				})
 
 				it('does not modify the original tokens', () => {
-					expect(tokens).to.have.length(5)
+					verify(tokens).areTokensWithTypes([
+						'LParen',
+						'Number',
+						'RParen',
+						'Plus',
+						'Number',
+					])
 				})
 
 			})

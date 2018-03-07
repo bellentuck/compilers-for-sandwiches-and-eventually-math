@@ -4,16 +4,16 @@
 // All the sub-parsers take an Array of Tokens, and return a tuple of
 // (a token or parse tree) and (the tokens which the parser did not consume).
 
-// parseFactor :: [Token] -> { PT: ParseTree, remainingTokens: [Token] }
+// parseFactor :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseFactor = tokens => {
 
 	const next = tokens[0]
 
-	// NumericF rule: Factor -> Number
+	// NumericF rule: Factor -> number literal
 	if (next.type === 'Number') {
 		// implement me!
 		return {
-			PT: {
+			parseTree: {
 				type: 'NumericF',
 				childNumber: next.value,
 			},
@@ -26,9 +26,9 @@ const parseFactor = tokens => {
 		// implement me!
 		const factorResult = parseFactor(tokens.slice(1))
 		return {
-			PT: {
+			parseTree: {
 				type: 'NegativeF',
-				childFactor: factorResult.PT,
+				childFactor: factorResult.parseTree,
 			},
 			remainingTokens: factorResult.remainingTokens,
 		}
@@ -40,9 +40,9 @@ const parseFactor = tokens => {
 		// eslint-disable-next-line no-use-before-define
 		const expressionResult = parseExpression(tokens.slice(1)) // skip LParen
 		return {
-			PT: {
+			parseTree: {
 				type: 'GroupF',
-				childExpression: expressionResult.PT,
+				childExpression: expressionResult.parseTree,
 			},
 			remainingTokens: expressionResult.remainingTokens.slice(1), // skip Rparen
 		}
@@ -51,7 +51,7 @@ const parseFactor = tokens => {
 	throw Error(`Parse error, unexpected token: ${next}`)
 }
 
-// parseB :: [Token] -> { PT: ParseTree, remainingTokens: [Token] }
+// parseB :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseF2 = tokens => {
 
 	const next = tokens[0]
@@ -61,7 +61,7 @@ const parseF2 = tokens => {
 	const isSlash = next && next.type === 'Slash'
 	if (!isStar && !isSlash) {
 		return {
-			PT: {
+			parseTree: {
 				type: 'EpsilonF2',
 			},
 			remainingTokens: tokens,
@@ -73,17 +73,17 @@ const parseF2 = tokens => {
 	const factorResult = parseFactor(tokens.slice(1))
 	const f2Result = parseF2(factorResult.remainingTokens)
 	return {
-		PT: {
+		parseTree: {
 			type: isStar ? 'MultiplicativeF2' : 'DivisionalF2',
-			childFactor: factorResult.PT,
-			childF2: f2Result.PT,
+			childFactor: factorResult.parseTree,
+			childF2: f2Result.parseTree,
 		},
 		remainingTokens: f2Result.remainingTokens,
 	}
 
 }
 
-// parseTerm :: [Token] -> { PT: ParseTree, remainingTokens: [Token] }
+// parseTerm :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseTerm = tokens => {
 
 	// Term -> Factor F2
@@ -92,17 +92,17 @@ const parseTerm = tokens => {
 	const f2Result = parseF2(factorResult.remainingTokens)
 
 	return {
-		PT: {
+		parseTree: {
 			type: 'Term',
-			childFactor: factorResult.PT,
-			childF2: f2Result.PT,
+			childFactor: factorResult.parseTree,
+			childF2: f2Result.parseTree,
 		},
 		remainingTokens: f2Result.remainingTokens,
 	}
 
 }
 
-// parseA :: [Token] -> { PT: ParseTree, remainingTokens: [Token] }
+// parseA :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseT2 = tokens => {
 
 	const next = tokens[0]
@@ -112,26 +112,27 @@ const parseT2 = tokens => {
 	const isSub = next && next.type === 'Minus'
 	if (!isAdd && !isSub) {
 		return {
-			PT: { type: 'EpsilonT2' },
+			parseTree: { type: 'EpsilonT2' },
 			remainingTokens: tokens,
 		}
 	}
 
-	// T2 -> + Term T2 | - Term T2
+	// T2 -> + Term T2
+	// T2 -> - Term T2
 	const termResult = parseTerm(tokens.slice(1))
 	const t2Result = parseT2(termResult.remainingTokens)
 	return {
-		PT: {
+		parseTree: {
 			type: isAdd ? 'AdditiveT2' : 'SubtractiveT2',
-			childTerm: termResult.PT,
-			childT2: t2Result.PT,
+			childTerm: termResult.parseTree,
+			childT2: t2Result.parseTree,
 		},
 		remainingTokens: t2Result.remainingTokens,
 	}
 
 }
 
-// parseExpression :: [Token] -> { PT: ParseTree, remainingTokens: [Token] }
+// parseExpression :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseExpression = tokens => {
 
 	// Expression -> Term T2
@@ -139,10 +140,10 @@ const parseExpression = tokens => {
 	const termResult = parseTerm(tokens)
 	const t2Result = parseT2(termResult.remainingTokens)
 	return {
-		PT: {
+		parseTree: {
 			type: 'Expression',
-			childTerm: termResult.PT,
-			childT2: t2Result.PT,
+			childTerm: termResult.parseTree,
+			childT2: t2Result.parseTree,
 		},
 		remainingTokens: t2Result.remainingTokens,
 	}
@@ -150,7 +151,7 @@ const parseExpression = tokens => {
 }
 
 // parse :: [Token] -> ParseTree (for an expression)
-const parse = tokens => parseExpression(tokens).PT // implement me!
+const parse = tokens => parseExpression(tokens).parseTree // implement me!
 
 module.exports = {
 	parseFactor,
