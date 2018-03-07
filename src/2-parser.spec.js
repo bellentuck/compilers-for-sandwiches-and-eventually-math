@@ -1,4 +1,4 @@
-'use strict'; // eslint-disable-line semi
+'use strict'
 /* eslint-disable no-unused-expressions */
 
 const chai = require('chai')
@@ -24,13 +24,9 @@ const verifyResultShape = result => {
 }
 
 describe('parser', () => {
-
 	describe('helpers', () => {
-
 		describe('`parseFactor`', () => {
-
 			describe(`parsing '27'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('27')
@@ -53,15 +49,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					verify(tokens).areTokensWithTypes([
-						'Number',
-					])
+					verify(tokens).areTokensWithTypes(['Number'])
 				})
-
 			})
 
 			describe(`parsing '32 + 4'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('32 + 4')
@@ -93,11 +85,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '-7'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('-7')
@@ -124,16 +114,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					verify(tokens).areTokensWithTypes([
-						'Minus',
-						'Number',
-					])
+					verify(tokens).areTokensWithTypes(['Minus', 'Number'])
 				})
-
 			})
 
 			describe(`parsing '-93 * (12)'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('-93 * (12)')
@@ -174,25 +159,19 @@ describe('parser', () => {
 						'RParen',
 					])
 				})
-
 			})
 
 			describe(`parsing '/45'`, () => {
-
 				const bad = () => parseFactor('/45')
 
 				it('throws an error', () => {
 					expect(bad).to.throw
 				})
-
 			})
-
 		})
 
 		describe('`parseF2`', () => {
-
 			describe(`parsing ''`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('')
@@ -216,11 +195,9 @@ describe('parser', () => {
 				it('does not modify the original tokens', () => {
 					expect(tokens).to.be.empty
 				})
-
 			})
 
 			describe(`parsing '+ 45 / 9'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('+ 45 / 9')
@@ -254,11 +231,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '* 13'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('* 13')
@@ -289,16 +264,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					verify(tokens).areTokensWithTypes([
-						'Star',
-						'Number',
-					])
+					verify(tokens).areTokensWithTypes(['Star', 'Number'])
 				})
-
 			})
 
 			describe(`parsing '* 9 - 762'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('* 9 - 762')
@@ -339,11 +309,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '* 1 * 6 * 2 + -5'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('* 1 * 6 * 2 + -5')
@@ -404,11 +372,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '/ 13'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('/ 13')
@@ -437,16 +403,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					verify(tokens).areTokensWithTypes([
-						'Slash',
-						'Number',
-					])
+					verify(tokens).areTokensWithTypes(['Slash', 'Number'])
 				})
-
 			})
 
 			describe(`parsing '/ 9 - 762'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('/ 9 - 762')
@@ -485,11 +446,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '/ 1 / 6 / 2 + -5'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('/ 1 / 6 / 2 + -5')
@@ -548,11 +507,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '* -8 / 3 - 0'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('* -8 / 3 - 0')
@@ -604,15 +561,11 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
-
 		})
 
 		describe('`parseTerm`', () => {
-
 			describe(`parsing '3 * 5'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('3 * 5')
@@ -654,11 +607,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '12 / 4'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('12 / 4')
@@ -700,11 +651,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '-99 * 1/2 + -76'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('-99 * 1/2 + -76')
@@ -766,15 +715,11 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
-
 		})
 
 		describe('`parseT2`', () => {
-
 			describe(`parsing ''`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('')
@@ -798,11 +743,9 @@ describe('parser', () => {
 				it('does not modify the original tokens', () => {
 					expect(tokens).to.be.empty
 				})
-
 			})
 
 			describe(`parsing ') + (9)'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex(') + (9)')
@@ -838,11 +781,9 @@ describe('parser', () => {
 						'RParen',
 					])
 				})
-
 			})
 
 			describe(`parsing '/ 45 + 9'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('/ 45 + 9')
@@ -876,11 +817,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '+ 13'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('+ 13')
@@ -915,16 +854,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					verify(tokens).areTokensWithTypes([
-						'Plus',
-						'Number',
-					])
+					verify(tokens).areTokensWithTypes(['Plus', 'Number'])
 				})
-
 			})
 
 			describe(`parsing '+ 3/4'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('+ 3/4')
@@ -973,11 +907,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '+ 8 + 2'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('+ 8 + 2')
@@ -1032,11 +964,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '- 13'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('- 13')
@@ -1071,16 +1001,11 @@ describe('parser', () => {
 				})
 
 				it('does not modify the original tokens', () => {
-					verify(tokens).areTokensWithTypes([
-						'Minus',
-						'Number',
-					])
+					verify(tokens).areTokensWithTypes(['Minus', 'Number'])
 				})
-
 			})
 
 			describe(`parsing '- 3/4'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('- 3/4')
@@ -1129,11 +1054,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '- 8 - 2'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('- 8 - 2')
@@ -1188,11 +1111,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '+ 1/64 - 5 * 4'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('+ 1/64 - 5 * 4')
@@ -1265,15 +1186,11 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
-
 		})
 
 		describe('`parseExpression`', () => {
-
 			describe(`parsing '3 * 5'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('3 * 5')
@@ -1321,11 +1238,9 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
 
 			describe(`parsing '3 * 5 + 1'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('3 * 5 + 1')
@@ -1388,15 +1303,11 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
-
 		})
 
 		describe('`parseFactor` (again)', () => {
-
 			describe(`parsing '(27)'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('(27)')
@@ -1440,11 +1351,9 @@ describe('parser', () => {
 						'RParen',
 					])
 				})
-
 			})
 
 			describe(`parsing '(27) + 9'`, () => {
-
 				let result, tokens
 				beforeEach(() => {
 					tokens = lex('(27) + 9')
@@ -1493,15 +1402,11 @@ describe('parser', () => {
 						'Number',
 					])
 				})
-
 			})
-
 		})
-
 	})
 
 	describe('`parse`', () => {
-
 		it('returns a parse tree for an expression from an array of input tokens', () => {
 			const tokens = lex('-3 / (4 - 2 * 2) + 1')
 			const tree = parse(tokens)
@@ -1580,7 +1485,5 @@ describe('parser', () => {
 				},
 			})
 		})
-
 	})
-
 })

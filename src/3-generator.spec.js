@@ -1,4 +1,4 @@
-'use strict'; // eslint-disable-line semi
+'use strict'
 /* eslint-disable no-unused-expressions */
 
 const chai = require('chai')
@@ -11,9 +11,7 @@ const frontend = expressionStr => parse(lex(expressionStr))
 const { evaluate, rpn, original } = require('./3-generator')
 
 describe('generator', () => {
-
 	describe('original', () => {
-
 		it('when given a NumericF parse tree, returns the number string', () => {
 			const tree = {
 				type: 'NumericF',
@@ -106,11 +104,9 @@ describe('generator', () => {
 		it(`improves the spacing for '  4*     3   /1'`, () => {
 			expect(original(frontend('  4*     3   /1'))).to.equal('4 * 3 / 1')
 		})
-
 	})
 
 	describe('evaluate', () => {
-
 		it('evaluates `1`', () => {
 			const tree = frontend('1')
 			expect(evaluate(tree)).to.equal(1)
@@ -180,11 +176,9 @@ describe('generator', () => {
 			const tree = frontend('-9 * 2 / -(3 + 7) + ((-4 * 1/2) - -21)')
 			expect(evaluate(tree)).to.equal(20.8)
 		})
-
 	})
 
 	describe('rpn', () => {
-
 		it('is a function', () => {
 			expect(rpn).to.be.a('function')
 		})
@@ -221,9 +215,9 @@ describe('generator', () => {
 
 		it('compiles `-9 * 2 / -(3 + 7) + ((-4 * 1/2) - -21)` properly', () => {
 			const tree = frontend('-9 * 2 / -(3 + 7) + ((-4 * 1/2) - -21)')
-			expect(rpn(tree)).to.equal('9 -1 * 2 * 3 7 + -1 * / 4 -1 * 1 * 2 / 21 -1 * - +')
+			expect(rpn(tree)).to.equal(
+				'9 -1 * 2 * 3 7 + -1 * / 4 -1 * 1 * 2 / 21 -1 * - +',
+			)
 		})
-
 	})
-
 })

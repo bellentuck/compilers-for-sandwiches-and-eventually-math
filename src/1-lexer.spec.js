@@ -1,4 +1,4 @@
-'use strict'; // eslint-disable-line semi
+'use strict'
 /* eslint-disable no-unused-expressions */
 
 const chai = require('chai')
@@ -8,18 +8,18 @@ const { lex } = require('./1-lexer')
 
 // helper function
 const verify = tokens => ({
-	areTokensWithTypes (types) {
+	areTokensWithTypes(types) {
 		expect(tokens).to.have.length(types.length)
 		tokens.forEach((token, idx) => {
-			expect(token).to.be.an('object').with.property('type', types[idx])
+			expect(token)
+				.to.be.an('object')
+				.with.property('type', types[idx])
 		})
 	},
 })
 
 describe('lexer `lex`', () => {
-
 	describe('basics:', () => {
-
 		it(`converts '' to an array of no tokens`, () => {
 			expect(lex('')).to.be.empty
 		})
@@ -27,7 +27,8 @@ describe('lexer `lex`', () => {
 		it(`converts '5' to an array of one Number token`, () => {
 			const tokens = lex('5')
 			expect(tokens).to.have.length(1)
-			expect(tokens[0]).to.be.an('object')
+			expect(tokens[0])
+				.to.be.an('object')
 				.with.property('type', 'Number')
 		})
 
@@ -42,11 +43,7 @@ describe('lexer `lex`', () => {
 		})
 
 		it(`converts '1+2' to an array of three tokens`, () => {
-			verify(lex('1+2')).areTokensWithTypes([
-				'Number',
-				'Plus',
-				'Number',
-			])
+			verify(lex('1+2')).areTokensWithTypes(['Number', 'Plus', 'Number'])
 		})
 
 		it(`converts '45+1293' to an array of three tokens`, () => {
@@ -64,11 +61,9 @@ describe('lexer `lex`', () => {
 				'Number',
 			])
 		})
-
 	})
 
 	describe('numbers:', () => {
-
 		it(`converts '426' to a Number token with value '426'`, () => {
 			const token = lex('426')[0]
 			expect(token).to.be.an('object')
@@ -89,11 +84,9 @@ describe('lexer `lex`', () => {
 			expect(tokens[2]).to.have.property('value', '8')
 			expect(tokens[4]).to.have.property('value', '101')
 		})
-
 	})
 
 	describe('short inputs:', () => {
-
 		const examples = [
 			{ input: '5', type: 'Number' },
 			{ input: '(', type: 'LParen' },
@@ -105,15 +98,15 @@ describe('lexer `lex`', () => {
 		]
 
 		examples.forEach(example => {
-			it(`converts ${example.input} to an array of one ${example.type} token`, () => {
+			it(`converts ${example.input} to an array of one ${
+				example.type
+			} token`, () => {
 				verify(lex(example.input)).areTokensWithTypes([example.type])
 			})
 		})
-
 	})
 
 	describe('long inputs:', () => {
-
 		it(`converts '2 - 1/2'`, () => {
 			const tokens = lex('2 - 1/2')
 			verify(tokens).areTokensWithTypes([
@@ -160,9 +153,7 @@ describe('lexer `lex`', () => {
 			const lexBad = () => lex('1 + ,2')
 			expect(lexBad).to.throw()
 		})
-
 	})
-
 })
 
 module.exports = {

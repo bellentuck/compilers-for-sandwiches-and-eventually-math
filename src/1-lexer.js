@@ -1,15 +1,15 @@
-'use strict'; // eslint-disable-line semi
+'use strict'
 
 // regular expressions which may be helpful
 const matchers = [
 	{ type: 'Number', regex: /^\d+/ },
-	{ type: 'LParen', regex: /^\(/  },
-	{ type: 'RParen', regex: /^\)/  },
-	{ type: 'Star',   regex: /^\*/  },
-	{ type: 'Slash',  regex: /^\//  },
-	{ type: 'Plus',   regex: /^\+/  },
-	{ type: 'Minus',  regex: /^-/   },
-	{ type: 'Space',  regex: /^\s+/ },
+	{ type: 'LParen', regex: /^\(/ },
+	{ type: 'RParen', regex: /^\)/ },
+	{ type: 'Star', regex: /^\*/ },
+	{ type: 'Slash', regex: /^\// },
+	{ type: 'Plus', regex: /^\+/ },
+	{ type: 'Minus', regex: /^-/ },
+	{ type: 'Space', regex: /^\s+/ },
 ]
 
 // Read: `lex` is a function taking a String and returning an Array of Tokens
@@ -17,7 +17,6 @@ const matchers = [
 
 // lex :: String -> [Token]
 const lex = inputStr => {
-
 	// Your job: implement this function
 
 	if (!inputStr) return []
@@ -40,7 +39,6 @@ const lex = inputStr => {
 	const nextTokens = lex(inputStr.slice(match.length))
 
 	return [token, ...nextTokens]
-
 }
 
 // This makes `lex` available to other JS files in Node

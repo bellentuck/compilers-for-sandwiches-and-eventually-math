@@ -1,4 +1,5 @@
-'use strict'; // eslint-disable-line semi
+'use strict'
+
 const { inspect } = require('util')
 const prettyString = val => inspect(val, false, null, true)
 

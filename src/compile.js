@@ -1,4 +1,4 @@
-'use strict'; // eslint-disable-line semi
+'use strict'
 
 const { lex } = require('./1-lexer')
 const { parse } = require('./2-parser')

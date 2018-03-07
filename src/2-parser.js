@@ -1,12 +1,10 @@
-'use strict'; // eslint-disable-line semi
-/* eslint-disable new-cap */
+'use strict'
 
 // All the sub-parsers take an Array of Tokens, and return a tuple of
 // (a token or parse tree) and (the tokens which the parser did not consume).
 
 // parseFactor :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseFactor = tokens => {
-
 	const next = tokens[0]
 
 	// NumericF rule: Factor -> number literal
@@ -53,7 +51,6 @@ const parseFactor = tokens => {
 
 // parseB :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseF2 = tokens => {
-
 	const next = tokens[0]
 
 	// F2 -> EpsilonF2
@@ -80,12 +77,10 @@ const parseF2 = tokens => {
 		},
 		remainingTokens: f2Result.remainingTokens,
 	}
-
 }
 
 // parseTerm :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseTerm = tokens => {
-
 	// Term -> Factor F2
 
 	const factorResult = parseFactor(tokens)
@@ -99,12 +94,10 @@ const parseTerm = tokens => {
 		},
 		remainingTokens: f2Result.remainingTokens,
 	}
-
 }
 
 // parseA :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseT2 = tokens => {
-
 	const next = tokens[0]
 
 	// T2 -> EpsilonT
@@ -129,12 +122,10 @@ const parseT2 = tokens => {
 		},
 		remainingTokens: t2Result.remainingTokens,
 	}
-
 }
 
 // parseExpression :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseExpression = tokens => {
-
 	// Expression -> Term T2
 
 	const termResult = parseTerm(tokens)
@@ -147,7 +138,6 @@ const parseExpression = tokens => {
 		},
 		remainingTokens: t2Result.remainingTokens,
 	}
-
 }
 
 // parse :: [Token] -> ParseTree (for an expression)
