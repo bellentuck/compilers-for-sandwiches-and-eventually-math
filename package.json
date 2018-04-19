@@ -9,8 +9,21 @@
 	"scripts": {
 		"test": "mocha src/*.spec.js",
 		"test-watch": "npm run test -- --watch",
+		"precommit": "lint-staged",
+		"prettify": "prettier --write \"**/*.{js,jsx,json,css,scss,md}\"",
 		"lint": "eslint src --ignore-path .gitignore --cache --format node_modules/eslint-formatter-pretty",
 		"start": "node src"
+	},
+	"lint-staged": {
+		"*.{js,jsx}": [
+			"prettier --write",
+			"eslint --fix",
+			"git add"
+		],
+		"*.{css,scss,json,md}": [
+			"prettier --write",
+			"git add"
+		]
 	},
 	"author": "Gabriel Lebec <glebec@gmail.com> (https://github.com/glebec)",
 	"license": "MIT",
@@ -28,6 +41,8 @@
 		"eslint-config-fullstack": "^3.0.0",
 		"eslint-formatter-pretty": "^1.1.0",
 		"eslint-plugin-react": "^7.0.1",
-		"mocha": "^4.1.0"
+		"lint-staged": "^7.0.4",
+		"mocha": "^4.1.0",
+		"prettier": "^1.12.1"
 	}
 }

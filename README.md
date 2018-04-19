@@ -4,9 +4,9 @@ Compiler exercise for education. Parsing infix arithmetic expressions via LL(1) 
 
 ## Features
 
-* Possible to solve using pure functions only: no side effects, no mutations, all `const` etc.
-* One node type per production rule (allows for zero `if` statements or ternaries in generator code, only control flow via `switch`)
-* Extensive test suite
+*   Possible to solve using pure functions only: no side effects, no mutations, all `const` etc.
+*   One node type per production rule (allows for zero `if` statements or ternaries in generator code, only control flow via `switch`)
+*   Extensive test suite
 
 ## Use
 
@@ -25,9 +25,9 @@ npm run test-watch # start the tests in watch mode
 
 Implement the specs found in the `src` folder in order:
 
-1. Lexer
-2. Parser
-3. Generator
+1.  Lexer
+2.  Parser
+3.  Generator
 
 The `compiler.spec.js` will then pass.
 
@@ -35,13 +35,13 @@ The `compiler.spec.js` will then pass.
 
 ### Supports
 
-* Integers
-* Negation
-* Addition
-* Subtraction
-* Multiplication
-* Division
-* Grouping (parens)
+*   Integers
+*   Negation
+*   Addition
+*   Subtraction
+*   Multiplication
+*   Division
+*   Grouping (parens)
 
 ## Contents
 
@@ -49,32 +49,32 @@ The `compiler.spec.js` will then pass.
 
 Converts raw input string to an array of Plain Old JavaScript Objects (POJOs) representing lexemes, aka tokens:
 
-* Number (string of digits)
-* Lparen
-* Rparen
-* Star
-* Slash
-* Plus
-* Minus
+*   Number (string of digits)
+*   Lparen
+*   Rparen
+*   Star
+*   Slash
+*   Plus
+*   Minus
 
 ### Parser
 
 Converts array of tokens to a parse tree, aka concrete syntax tree. Organized by nonterminal category:
 
-* Expression (childTerm, childT2)
-* Term (childFactor, childF2)
-* T2 rules
-  * EpsilonT2
-  * AdditiveT2 (childTerm, childT2)
-  * SubtractiveT2 (childTerm, childT2)
-* Factor rules
-  * NumericF (childNumber)
-  * NegativeF (childFactor)
-  * GroupF (childExpression)
-* F2 rules
-  * EpsilonF2
-  * MultiplicativeF2 (childFactor, childF2)
-  * DivisionalF2 (childFactor, childF2)
+*   Expression (childTerm, childT2)
+*   Term (childFactor, childF2)
+*   T2 rules
+    *   EpsilonT2
+    *   AdditiveT2 (childTerm, childT2)
+    *   SubtractiveT2 (childTerm, childT2)
+*   Factor rules
+    *   NumericF (childNumber)
+    *   NegativeF (childFactor)
+    *   GroupF (childExpression)
+*   F2 rules
+    *   EpsilonF2
+    *   MultiplicativeF2 (childFactor, childF2)
+    *   DivisionalF2 (childFactor, childF2)
 
 Note that a CST / PT preserves all or almost all of the syntax as represented by the language's grammar, whereas an Abstract Syntax Tree (AST) reduces the information to the bare minimum necessary for a given use case. Our CST features one node type per _production rule_ rather than for per _nonterminal_, which increases the number of node types but simplifies the generator code.
 
@@ -82,9 +82,9 @@ Note that a CST / PT preserves all or almost all of the syntax as represented by
 
 Dispatches based on node type to recursively process the parse tree. Several generators spec'd:
 
-* one which re-generates the input string
-* a numerical evaluator
-* an infix -> RPN compiler
+*   one which re-generates the input string
+*   a numerical evaluator
+*   an infix -> RPN compiler
 
 The compiler is active by default. The evaluator can be chosen from the command line by appending the `--eval` flag.
 
@@ -129,5 +129,5 @@ It is possible to code the parse tree using nonterminals and terminals in the ab
 
 ## Resources
 
-* [Stanford CS143 Notes on Parsing (PDF)](https://web.stanford.edu/class/archive/cs/cs143/cs143.1156/handouts/parsing.pdf)
-* [Online RPN <-> Infix Compiler / Evaluator](http://rpnevaluator.andreasandersen.dk/default.aspx) (useful for double-checking)
+*   [Stanford CS143 Notes on Parsing (PDF)](https://web.stanford.edu/class/archive/cs/cs143/cs143.1156/handouts/parsing.pdf)
+*   [Online RPN <-> Infix Compiler / Evaluator](http://rpnevaluator.andreasandersen.dk/default.aspx) (useful for double-checking)

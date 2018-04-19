@@ -3,6 +3,7 @@
 const { inspect } = require('util')
 const prettyString = val => inspect(val, false, null, true)
 
+// prettier-ignore
 // original :: ParseTree | Token -> String
 const original = node => {
 	switch (node.type) {
@@ -23,6 +24,7 @@ const original = node => {
 	throw Error(`Compilation error, unexpected node: ${prettyString(node)}`)
 }
 
+// prettier-ignore
 // evaluate :: ParseTree | Token -> Number
 const evaluate = node => {
 	switch (node.type) {
@@ -43,6 +45,7 @@ const evaluate = node => {
 	throw Error(`Compilation error, unexpected node: ${prettyString(node)}`)
 }
 
+// prettier-ignore
 // rpn :: ParseTree | Token -> String
 const rpn = node => {
 	switch (node.type) {

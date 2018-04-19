@@ -7,7 +7,7 @@
 const parseFactor = tokens => {
 	const next = tokens[0]
 
-	// NumericF rule: Factor -> number literal
+	// NumericF rule: Factor -> <number literal>
 	if (next.type === 'Number') {
 		// implement me!
 		return {
@@ -49,7 +49,7 @@ const parseFactor = tokens => {
 	throw Error(`Parse error, unexpected token: ${next}`)
 }
 
-// parseB :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
+// parseF2 :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseF2 = tokens => {
 	const next = tokens[0]
 
@@ -96,7 +96,7 @@ const parseTerm = tokens => {
 	}
 }
 
-// parseA :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
+// parseT2 :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseT2 = tokens => {
 	const next = tokens[0]
 
