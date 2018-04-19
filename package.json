@@ -41,6 +41,7 @@
 		"eslint-config-fullstack": "^3.0.0",
 		"eslint-formatter-pretty": "^1.1.0",
 		"eslint-plugin-react": "^7.0.1",
+		"husky": "^0.14.3",
 		"lint-staged": "^7.0.4",
 		"mocha": "^4.1.0",
 		"prettier": "^1.12.1"
