@@ -1,27 +1,16 @@
 'use strict'
 
-const { lex } = require('./1-lexer')
-const { parse } = require('./2-parser')
-const { evaluate, rpn } = require('./3-generator')
+const { evaluate, compile } = require('./compile')
 
 // checking command flags for backend choice
 const inputStr = process.argv[2]
-const evalFlag = process.argv[3] === '--eval'
+const evalFlag = process.argv[3] === 'eval'
 
-// could import this e.g. from Ramda, but it's small enough to define inline.
-const pipe = (...fns) => input => fns.reduce((data, fn) => fn(data), input)
-
-// frontEnd :: String -> ParseTree
-const frontEnd = pipe(lex, parse)
-
-// backEnd :: ParseTree -> String (rpn) | Number (eval)
-const backEnd = evalFlag ? evaluate : rpn
-
-// compile :: String -> String (rpn) | Number (eval)
-const compile = pipe(frontEnd, backEnd)
+// choose which function to use
+const transform = evalFlag ? evaluate : compile
 
 // the only side effect in all of the solution code
-const main = pipe(compile, console.log.bind(console))
+const main = string => console.log(transform(string))
 
 // here we go…
 main(inputStr)

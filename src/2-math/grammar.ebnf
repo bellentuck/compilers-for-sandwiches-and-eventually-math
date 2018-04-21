@@ -2,13 +2,13 @@ Expression = Term, T2;
 
 T2 = '+', Term, T2
    | '-', Term, T2
-   | ''; (* aka epsilon *)
+   | ; (* aka epsilon *)
 
 Term = Factor, F2;
 
 F2 = '*', Factor, F2
    | '/', Factor, F2
-   | ''; (* aka epsilon *)
+   | ; (* aka epsilon *)
 
 Factor = '(', Expression, ')'
        | '-', Factor

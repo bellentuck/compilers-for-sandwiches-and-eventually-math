@@ -2,7 +2,7 @@
 
 const { lex } = require('./1-lexer')
 const { parse } = require('./2-parser')
-const { rpn } = require('./3-generator')
+const { shorthand } = require('./3-generator')
 
 // could import this e.g. from Ramda, but it's small enough to define inline.
 const pipe = (...fns) => input => fns.reduce((data, fn) => fn(data), input)
@@ -11,7 +11,7 @@ const pipe = (...fns) => input => fns.reduce((data, fn) => fn(data), input)
 const frontEnd = pipe(lex, parse)
 
 // backEnd :: ParseTree -> String
-const backEnd = rpn
+const backEnd = shorthand
 
 // compile :: String -> String
 const compile = pipe(frontEnd, backEnd)

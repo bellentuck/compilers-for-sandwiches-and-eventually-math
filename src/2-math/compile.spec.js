@@ -2,7 +2,7 @@
 
 const { expect } = require('chai')
 
-const compile = require('./compile')
+const { compile } = require('./compile')
 
 describe('`compile`', () => {
 	it('can convert infix to postfix', () => {
