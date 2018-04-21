@@ -3,8 +3,7 @@ Sandwich = Filling, MoreFillings, 'on', Bread;
 
 Filling = 'ham'
         | 'cheese'
-		| 'mustard'
-        | ;
+        | 'mustard';
 
 MoreFillings = 'and', Filling, MoreFillings
              | ; (* nothing, aka epsilon *)
