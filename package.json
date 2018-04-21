@@ -5,14 +5,17 @@
 	"engines": {
 		"node": ">=8.0.0"
 	},
-	"main": "src/index.js",
+	"main": "src/math/index.js",
 	"scripts": {
-		"test": "mocha src/*.spec.js",
+		"test": "mocha 'src/**/*.spec.js'",
 		"test-watch": "npm run test -- --watch",
+		"test-sandwich": "mocha 'src/1-sandwich/**/*.spec.js'",
+		"test-math": "mocha 'src/2-math/**/*.spec.js'",
 		"precommit": "lint-staged",
 		"prettify": "prettier --write \"**/*.{js,jsx,json,css,scss,md}\"",
 		"lint": "eslint src --ignore-path .gitignore --cache --format node_modules/eslint-formatter-pretty",
-		"start": "node src"
+		"start": "node src/2-math",
+		"start-sandwich": "node src/1-sandwich"
 	},
 	"lint-staged": {
 		"*.{js,jsx}": [

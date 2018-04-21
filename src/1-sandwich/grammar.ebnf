@@ -1,0 +1,11 @@
+Sandwich = Filling, MoreFillings, 'on', Bread;
+
+Filling = 'ham'
+        | 'cheese'
+        | 'mustard';
+
+MoreFillings = 'and', Filling, MoreFillings
+             | ''; (* nothing, aka epsilon *)
+
+Bread = 'rye'
+      | 'wheat';
