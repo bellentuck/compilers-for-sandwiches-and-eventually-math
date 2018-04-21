@@ -3,6 +3,7 @@ Sandwich = Filling, MoreFillings, 'on', Bread;
 
 Filling = 'ham'
         | 'cheese'
+		| 'mustard'
         | ;
 
 MoreFillings = 'and', Filling, MoreFillings
