@@ -11,7 +11,7 @@ const frontend = expressionStr => parse(lex(expressionStr))
 const { original, shorthand } = require('./3-generator')
 
 describe('generator', () => {
-	describe('original', () => {
+	xdescribe('original', () => {
 		it('when given a Bread parse tree, returns the literal bread name', () => {
 			const tree = {
 				type: 'Bread',
@@ -95,7 +95,7 @@ describe('generator', () => {
 		})
 	})
 
-	describe('shorthand', () => {
+	xdescribe('shorthand', () => {
 		// no handholding on this one, see if you can emulate the examples!
 
 		const examples = [

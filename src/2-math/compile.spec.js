@@ -4,7 +4,7 @@ const { expect } = require('chai')
 
 const { compile } = require('./compile')
 
-describe('`compile`', () => {
+xdescribe('`compile`', () => {
 	it('can convert infix to postfix', () => {
 		const infix = '-9 * 2 / -(3 + 7) + ((-4 * 1/2) - -21)'
 		const postfix = compile(infix)

@@ -18,27 +18,9 @@ const matchers = [
 // lex :: String -> [Token]
 const lex = inputStr => {
 	// Your job: implement this function
-
-	if (!inputStr) return []
-
-	const matcher = matchers.find(aMatcher => aMatcher.regex.test(inputStr))
-
-	if (!matcher) throw Error(`Unexpected token at: ${inputStr}`)
-
-	const match = matcher.regex.exec(inputStr)[0]
-
-	if (matcher.type === 'Space') {
-		return lex(inputStr.slice(match.length))
-	}
-
-	const token = {
-		type: matcher.type,
-		value: match,
-	}
-
-	const nextTokens = lex(inputStr.slice(match.length))
-
-	return [token, ...nextTokens]
+	// // example use of the matcher objects above:
+	// const matcher = matchers.find(aMatcher => aMatcher.regex.test(inputStr))
+	// const matched = matcher.regex.exec(inputStr)[0]
 }
 
 // This makes `lex` available to other JS files in Node

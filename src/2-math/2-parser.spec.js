@@ -25,7 +25,7 @@ const verifyResultShape = result => {
 
 describe('parser', () => {
 	describe('helpers', () => {
-		describe('`parseFactor`', () => {
+		xdescribe('`parseFactor`', () => {
 			describe(`parsing '27'`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -170,7 +170,7 @@ describe('parser', () => {
 			})
 		})
 
-		describe('`parseF2`', () => {
+		xdescribe('`parseF2`', () => {
 			describe(`parsing ''`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -564,7 +564,7 @@ describe('parser', () => {
 			})
 		})
 
-		describe('`parseTerm`', () => {
+		xdescribe('`parseTerm`', () => {
 			describe(`parsing '3 * 5'`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -718,7 +718,7 @@ describe('parser', () => {
 			})
 		})
 
-		describe('`parseT2`', () => {
+		xdescribe('`parseT2`', () => {
 			describe(`parsing ''`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -1189,7 +1189,7 @@ describe('parser', () => {
 			})
 		})
 
-		describe('`parseExpression`', () => {
+		xdescribe('`parseExpression`', () => {
 			describe(`parsing '3 * 5'`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -1306,7 +1306,7 @@ describe('parser', () => {
 			})
 		})
 
-		describe('`parseFactor` (again)', () => {
+		xdescribe('`parseFactor` (again)', () => {
 			describe(`parsing '(27)'`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -1406,7 +1406,7 @@ describe('parser', () => {
 		})
 	})
 
-	describe('`parse`', () => {
+	xdescribe('`parse`', () => {
 		it('returns a parse tree for an expression from an array of input tokens', () => {
 			const tokens = lex('-3 / (4 - 2 * 2) + 1')
 			const tree = parse(tokens)

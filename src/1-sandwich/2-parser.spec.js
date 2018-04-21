@@ -34,7 +34,7 @@ const verify = tokens => ({
 
 describe('parser', () => {
 	describe('helpers', () => {
-		describe('`parseBread`', () => {
+		xdescribe('`parseBread`', () => {
 			describe(`parsing 'rye'`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -134,7 +134,7 @@ describe('parser', () => {
 			})
 		})
 
-		describe('`parseFilling`', () => {
+		xdescribe('`parseFilling`', () => {
 			const fillingNames = ['ham', 'cheese', 'mustard']
 			fillingNames.forEach(fillingName => {
 				describe(`parsing '${fillingName}'`, () => {
@@ -210,7 +210,7 @@ describe('parser', () => {
 			})
 		})
 
-		describe('`parseMoreFillings`', () => {
+		xdescribe('`parseMoreFillings`', () => {
 			describe(`parsing ''`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -352,7 +352,7 @@ describe('parser', () => {
 			})
 		})
 
-		describe('`parseSandwich`', () => {
+		xdescribe('`parseSandwich`', () => {
 			describe(`parsing 'ham on rye'`, () => {
 				let result, tokens
 				beforeEach(() => {
@@ -445,7 +445,7 @@ describe('parser', () => {
 		})
 	})
 
-	describe('`parse`', () => {
+	xdescribe('`parse`', () => {
 		it('returns a parse tree for a sandwich from an array of input tokens', () => {
 			const tokens = lex('cheese and cheese and cheese on rye')
 			const tree = parse(tokens)

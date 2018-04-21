@@ -3,6 +3,7 @@
 // All the sub-parsers take an Array of Tokens, and return a tuple of
 // (a token or parse tree) and (the tokens which the parser did not consume).
 
+// You get some of this parser for "free" (as a model for how this works).
 // parseBread :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseBread = tokens => {
 	const next = tokens[0]
@@ -10,11 +11,8 @@ const parseBread = tokens => {
 	// Bread -> 'wheat'
 	if (next.value === 'rye' || next.value === 'wheat') {
 		return {
-			parseTree: {
-				type: 'Bread',
-				childLiteral: next.value,
-			},
-			remainingTokens: tokens.slice(1),
+			parseTree: undefined, // finish me!
+			remainingTokens: undefined, // finish me!
 		}
 	}
 	// otherwise, we have a bad string!
@@ -27,19 +25,9 @@ const parseFilling = tokens => {
 	// Filling -> 'ham'
 	// Filling -> 'cheese'
 	// Filling -> 'mustard'
-	if (
-		next.value === 'ham' ||
-		next.value === 'cheese' ||
-		next.value === 'mustard'
-	) {
-		return {
-			parseTree: {
-				type: 'Filling',
-				childLiteral: next.value,
-			},
-			remainingTokens: tokens.slice(1),
-		}
-	}
+
+	// finish me!
+
 	// otherwise, we have a bad string!
 	throw Error(`Unexpected token: ${next.value}`)
 }
@@ -48,47 +36,22 @@ const parseFilling = tokens => {
 const parseMoreFillings = tokens => {
 	const next = tokens[0]
 	// MoreFillings -> nothing
-	if (!next || next.value !== 'and') {
-		return {
-			parseTree: {
-				type: 'Epsilon',
-			},
-			remainingTokens: tokens, // did not use any tokens
-		}
-	}
+
+	// finish me!
+
 	// MoreFillings -> 'and' Filling MoreFillings
-	const fillingResult = parseFilling(tokens.slice(1))
-	const moreFillingsResult = parseMoreFillings(fillingResult.remainingTokens)
-	return {
-		parseTree: {
-			type: 'MoreFillings',
-			childFilling: fillingResult.parseTree,
-			childMoreFillings: moreFillingsResult.parseTree,
-		},
-		remainingTokens: moreFillingsResult.remainingTokens,
-	}
+
+	// finish me!
 }
 
 // parseSandwich :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseSandwich = tokens => {
 	// Sandwich -> Filling MoreFillings 'on' Bread
-	const fillingResult = parseFilling(tokens)
-	const moreFillingsResult = parseMoreFillings(fillingResult.remainingTokens)
-	const breadTokens = moreFillingsResult.remainingTokens.slice(1) // skip 'on'
-	const breadResult = parseBread(breadTokens)
-	return {
-		parseTree: {
-			type: 'Sandwich',
-			childFilling: fillingResult.parseTree,
-			childMoreFillings: moreFillingsResult.parseTree,
-			childBread: breadResult.parseTree,
-		},
-		remainingTokens: breadResult.remainingTokens,
-	}
+	// finish me!
 }
 
 // parse :: [Token] -> ParseTree (for a sandwich)
-const parse = tokens => parseSandwich(tokens).parseTree
+const parse = tokens => undefined // finish me!
 
 module.exports = {
 	parseBread,

@@ -11,7 +11,7 @@ const frontend = expressionStr => parse(lex(expressionStr))
 const { evaluate, rpn, original } = require('./3-generator')
 
 describe('generator', () => {
-	describe('original', () => {
+	xdescribe('original', () => {
 		it('when given a NumericF parse tree, returns the number string', () => {
 			const tree = {
 				type: 'NumericF',
@@ -106,7 +106,7 @@ describe('generator', () => {
 		})
 	})
 
-	describe('evaluate', () => {
+	xdescribe('evaluate', () => {
 		it('evaluates `1`', () => {
 			const tree = frontend('1')
 			expect(evaluate(tree)).to.equal(1)
@@ -178,7 +178,7 @@ describe('generator', () => {
 		})
 	})
 
-	describe('rpn', () => {
+	xdescribe('rpn', () => {
 		it('is a function', () => {
 			expect(rpn).to.be.a('function')
 		})

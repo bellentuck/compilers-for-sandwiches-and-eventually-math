@@ -19,7 +19,7 @@ const verify = tokens => ({
 })
 
 describe('lexer `lex`', () => {
-	describe('basics:', () => {
+	xdescribe('basics:', () => {
 		it(`converts '' to an array of no tokens`, () => {
 			expect(lex('')).to.be.empty
 		})
@@ -63,7 +63,7 @@ describe('lexer `lex`', () => {
 		})
 	})
 
-	describe('numbers:', () => {
+	xdescribe('numbers:', () => {
 		it(`converts '426' to a Number token with value '426'`, () => {
 			const token = lex('426')[0]
 			expect(token).to.be.an('object')
@@ -86,7 +86,7 @@ describe('lexer `lex`', () => {
 		})
 	})
 
-	describe('short inputs:', () => {
+	xdescribe('short inputs:', () => {
 		const examples = [
 			{ input: '5', type: 'Number' },
 			{ input: '(', type: 'LParen' },
@@ -106,7 +106,7 @@ describe('lexer `lex`', () => {
 		})
 	})
 
-	describe('long inputs:', () => {
+	xdescribe('long inputs:', () => {
 		it(`converts '2 - 1/2'`, () => {
 			const tokens = lex('2 - 1/2')
 			verify(tokens).areTokensWithTypes([
