@@ -445,7 +445,7 @@ describe('parser', () => {
 		})
 	})
 
-	xdescribe('`parse`', () => {
+	describe('`parse`', () => {
 		it('returns a parse tree for a sandwich from an array of input tokens', () => {
 			const tokens = lex('cheese and cheese and cheese on rye')
 			const tree = parse(tokens)

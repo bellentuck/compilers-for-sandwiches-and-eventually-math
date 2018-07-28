@@ -85,7 +85,7 @@ const parseSandwich = tokens => {
 }
 
 // parse :: [Token] -> ParseTree (for a sandwich)
-const parse = tokens => undefined // finish me!
+const parse = tokens => parseSandwich(tokens).parseTree
 
 module.exports = {
 	parseBread,
