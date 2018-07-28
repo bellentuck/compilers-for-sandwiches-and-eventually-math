@@ -134,7 +134,7 @@ describe('parser', () => {
 			})
 		})
 
-		xdescribe('`parseFilling`', () => {
+		describe('`parseFilling`', () => {
 			const fillingNames = ['ham', 'cheese', 'mustard']
 			fillingNames.forEach(fillingName => {
 				describe(`parsing '${fillingName}'`, () => {

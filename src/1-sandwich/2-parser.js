@@ -6,33 +6,39 @@
 // You get some of this parser for "free" (as a model for how this works).
 // parseBread :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseBread = tokens => {
-	const next = tokens[0]
+	const { value } = tokens[0]
 	// Bread -> 'rye'
 	// Bread -> 'wheat'
-	if (next.value === 'rye' || next.value === 'wheat') {
+	if (value === 'rye' || value === 'wheat') {
 		return {
 			parseTree: {
 				type: 'Bread',
-				childLiteral: next.value,
+				childLiteral: value,
 			},
 			remainingTokens: tokens.slice(1),
 		}
 	}
 	// otherwise, we have a bad string!
-	throw Error(`Unexpected token: ${next.value}`)
+	throw Error(`Unexpected token: ${value}`)
 }
 
 // parseFilling :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseFilling = tokens => {
-	const next = tokens[0]
+	const { value } = tokens[0]
 	// Filling -> 'ham'
 	// Filling -> 'cheese'
 	// Filling -> 'mustard'
-
-	// finish me!
-
+	if (value === 'ham' || value === 'cheese' || value === 'mustard') {
+		return {
+			parseTree: {
+				type: 'Filling',
+				childLiteral: value,
+			},
+			remainingTokens: tokens.slice(1),
+		}
+	}
 	// otherwise, we have a bad string!
-	throw Error(`Unexpected token: ${next.value}`)
+	throw Error(`Unexpected token: ${value}`)
 }
 
 // parseMoreFillings :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
