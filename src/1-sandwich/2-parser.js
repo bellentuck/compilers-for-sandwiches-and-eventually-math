@@ -11,8 +11,11 @@ const parseBread = tokens => {
 	// Bread -> 'wheat'
 	if (next.value === 'rye' || next.value === 'wheat') {
 		return {
-			parseTree: undefined, // finish me!
-			remainingTokens: undefined, // finish me!
+			parseTree: {
+				type: 'Bread',
+				childLiteral: next.value,
+			},
+			remainingTokens: tokens.slice(1),
 		}
 	}
 	// otherwise, we have a bad string!

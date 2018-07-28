@@ -34,7 +34,7 @@ const verify = tokens => ({
 
 describe('parser', () => {
 	describe('helpers', () => {
-		xdescribe('`parseBread`', () => {
+		describe('`parseBread`', () => {
 			describe(`parsing 'rye'`, () => {
 				let result, tokens
 				beforeEach(() => {
