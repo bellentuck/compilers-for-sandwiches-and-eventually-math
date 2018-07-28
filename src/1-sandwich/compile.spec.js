@@ -4,7 +4,7 @@ const { expect } = require('chai')
 
 const compile = require('./compile')
 
-xdescribe('`compile`', () => {
+describe('`compile`', () => {
 	it('can convert a sandwich description to shorthand', () => {
 		const description = 'ham and cheese and mustard on wheat'
 		const shorthand = compile(description)
