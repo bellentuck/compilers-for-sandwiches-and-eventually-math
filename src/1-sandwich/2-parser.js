@@ -25,7 +25,6 @@ const parseBread = tokens => {
 // parseFilling :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseFilling = tokens => {
 	const { value } = tokens[0]
-	console.log('TOKENS', tokens)
 	// Filling -> 'ham'
 	// Filling -> 'cheese'
 	// Filling -> 'mustard'
@@ -72,6 +71,9 @@ const parseSandwich = tokens => {
 	// Sandwich -> Filling MoreFillings 'on' Bread
 	const filling = parseFilling(tokens)
 	const moreFillings = parseMoreFillings(filling.remainingTokens)
+	if (moreFillings.remainingTokens[0].value !== 'on') {
+		throw Error('unexpected token')
+	}
 	const bread = parseBread(moreFillings.remainingTokens.slice(1)) // ignore 'on'
 	return {
 		parseTree: {
