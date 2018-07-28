@@ -5,7 +5,12 @@
 
 // lex :: String -> [Token]
 const lex = inputStr => {
-	// Your job: implement this function
+	return inputStr === ''
+		? []
+		: inputStr.split(' ').map(str => ({
+				type: 'Word',
+				value: str,
+		  }))
 }
 
 // This makes `lex` available to other JS files in Node

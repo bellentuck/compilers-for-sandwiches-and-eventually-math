@@ -6,7 +6,7 @@ const { expect } = chai
 
 const { lex } = require('./1-lexer')
 
-xdescribe('lexer `lex`', () => {
+describe('lexer `lex`', () => {
 	it(`converts '' to an array of no tokens`, () => {
 		expect(lex('')).to.be.empty
 	})
