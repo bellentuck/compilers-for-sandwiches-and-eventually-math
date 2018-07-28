@@ -70,7 +70,18 @@ const parseMoreFillings = tokens => {
 // parseSandwich :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseSandwich = tokens => {
 	// Sandwich -> Filling MoreFillings 'on' Bread
-	// finish me!
+	const filling = parseFilling(tokens)
+	const moreFillings = parseMoreFillings(filling.remainingTokens)
+	const bread = parseBread(moreFillings.remainingTokens.slice(1)) // ignore 'on'
+	return {
+		parseTree: {
+			type: 'Sandwich',
+			childBread: bread.parseTree,
+			childFilling: filling.parseTree,
+			childMoreFillings: moreFillings.parseTree,
+		},
+		remainingTokens: bread.remainingTokens,
+	}
 }
 
 // parse :: [Token] -> ParseTree (for a sandwich)

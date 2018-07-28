@@ -352,7 +352,7 @@ describe('parser', () => {
 			})
 		})
 
-		xdescribe('`parseSandwich`', () => {
+		describe('`parseSandwich`', () => {
 			describe(`parsing 'ham on rye'`, () => {
 				let result, tokens
 				beforeEach(() => {
