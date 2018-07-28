@@ -210,7 +210,7 @@ describe('parser', () => {
 			})
 		})
 
-		xdescribe('`parseMoreFillings`', () => {
+		describe('`parseMoreFillings`', () => {
 			describe(`parsing ''`, () => {
 				let result, tokens
 				beforeEach(() => {

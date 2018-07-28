@@ -25,6 +25,7 @@ const parseBread = tokens => {
 // parseFilling :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
 const parseFilling = tokens => {
 	const { value } = tokens[0]
+	console.log('TOKENS', tokens)
 	// Filling -> 'ham'
 	// Filling -> 'cheese'
 	// Filling -> 'mustard'
@@ -45,12 +46,25 @@ const parseFilling = tokens => {
 const parseMoreFillings = tokens => {
 	const next = tokens[0]
 	// MoreFillings -> nothing
-
-	// finish me!
-
-	// MoreFillings -> 'and' Filling MoreFillings
-
-	// finish me!
+	if (!next || next.value !== 'and') {
+		return {
+			parseTree: {
+				type: 'Epsilon',
+			},
+			remainingTokens: tokens,
+		}
+	}
+	// else there are "and X..." fillings to parse!
+	const filling = parseFilling(tokens.slice(1))
+	const moreFillings = parseMoreFillings(filling.remainingTokens)
+	return {
+		parseTree: {
+			type: 'MoreFillings',
+			childFilling: filling.parseTree,
+			childMoreFillings: moreFillings.parseTree,
+		},
+		remainingTokens: moreFillings.remainingTokens,
+	}
 }
 
 // parseSandwich :: [Token] -> { parseTree: ParseTree, remainingTokens: [Token] }
